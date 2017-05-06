@@ -18,38 +18,39 @@ int soltar(int b, char jugador, juego p, int c);
 
 int main(int argc, char* argv[]){
     juego p;
+   
     int f,c, piezas;
-    bool juegoganado  =false;
+    bool juegoganado  = false;
     f = 6;
     c = 7;
     piezas = 4;
     p.tablero = new char*[f];
-    for(int i = 0; i < f; i ++){
+    for(int i = 0; i < f; i++){
         p.tablero[i] =  new char[c];
     }
     for(int j = 0;j < f;j++){
         for(int k = 0;k<c;k++){
-            p.tablero[j][k]= ' ';
+            p.tablero[j][k] = ' ';
         }
     }
+    
     imprimirtablero(p,f,c);
-       juegoganado = jugar(p, juegoganado, f, c, piezas); 
+    juegoganado = jugar(p, juegoganado, f, c, piezas); 
     return 0;
 }
 
-void  imprimirtablero(juego p, int f, int c){
-  //  cout<<endl;
+void imprimirtablero(juego p, int f, int c){
+    cout<<endl;
     for(int i = 0; i < f;i++){
-        for(int j = 0; j < c; j++){
+        for(int j = 0; j < c; j++)
             cout<<"|"<<p.tablero[i][j];
             cout<<"|";
             cout<<endl;
-            for(int k = 0; k < c; k++){
+            for(int k = 0; k < c; k++)
                 cout<<"--";
                 cout<<endl;
-                
-            }
-        }
+            
+        
     }
     
 }
@@ -58,7 +59,7 @@ bool jugar(juego p, bool juegoganado, int f, int c, int piezas){
     int columna, agarrar = 0, colocar=0;
     char jugador = 'y';
     while(!juegoganado){
-        if(agarrar != -1){
+        if(agarrar != -1 ){
             if(jugador == 'y'){
                 cout<<"Jugador 1, Seleccione una columna: "<<endl;
                 jugador = 'r';
@@ -125,25 +126,33 @@ int soltar(int b, char jugador, juego p, int c){
 bool revisar(int a, int b, juego p, int f, int c, int piezas){
     int vertical = 1, horizontal = 1, diagonal_1=1, diagonal_2=1,i,j;
     cout<<i<<" "<<b<<" "<<a<<endl;
+   
     char jugador = p.tablero[a][b];
     cout<<jugador<<endl;
-    for(i = a + 1;p.tablero[i][b] ==jugador &&i<f;i++, vertical++);
-    for(i = a - 1;p.tablero[i][b] ==jugador &&i>=0;i--, vertical++);
+  //  cout<<"validacion vertical"<<endl;
+   
+    for(i=a-1;p.tablero[i][b]==jugador&&i<f;i++,vertical++);
+   // cout<<"entro al primer for"<<endl;
+    for(i=a-1;p.tablero[i][b]==jugador&&i>=0;i--,vertical++);
+   // cout<<"entro al segundo for"<<endl;
     if(vertical>=piezas){
-        return true;
-    }
+       return true;
+    }           
+  //  cout<<"validacion horizontal "<<endl;
     for(j=b-1;p.tablero[a][j]==jugador&&j>=0;j--,horizontal++);
-    for(j=b+1;p.tablero[a][j]==jugador&&j<c;j++,horizontal++);
+    for(j=b-1;p.tablero[a][j]==jugador&&j<c;j++,horizontal++);
     if(horizontal>=piezas){
         return true;
     }
+   // cout<<"validacion diagonal 1"<<endl;
     for(i=a-1,j=b-1;p.tablero[i][j]==jugador&&i>=0&&j>=0;diagonal_1++,i--,j--);
-    for(i=a+1,j=b+1;p.tablero[i][j]==jugador&&i<=f&&j<=c;diagonal_1++,i++,j++);
+    for(i=a-1,j=b-1;p.tablero[i][j]==jugador&&i<=f&&j<=c;diagonal_1++,i++,j++);
     if(diagonal_1>=piezas){
         return true;
     }
-    for(i=a-1,j=b+1;p.tablero[i][j]==jugador&&i>=0&&j<=c;diagonal_2++,i--,j++);
-    for(i=a+1,j=b-1;p.tablero[i][j]==jugador&&i<=f&&j>=0;diagonal_2++,i++,j--);
+   // cout<<"validacion diagonal 2"<<endl;
+    for(i=a-1,j=b-1;p.tablero[i][j]==jugador&&i>=0&&j<=c;diagonal_2++,i++,j--);
+    for(i=a-1,j=b-1;p.tablero[i][j]==jugador&&i<=f&&j>=0;diagonal_2++,i--,j++);
     if(diagonal_2>=piezas){
         return true;
     }
