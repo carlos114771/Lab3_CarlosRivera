@@ -6,7 +6,7 @@ using namespace std;
 
 
 struct juego{
-    char** tablero;
+    char **tablero;
     char p1;
     char p2;
 };
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]){
 }
 
 void  imprimirtablero(juego p, int f, int c){
-    cout<<endl;
+  //  cout<<endl;
     for(int i = 0; i < f;i++){
         for(int j = 0; j < c; j++){
             cout<<"|"<<p.tablero[i][j];
@@ -134,4 +134,18 @@ bool revisar(int a, int b, juego p, int f, int c, int piezas){
     }
     for(j=b-1;p.tablero[a][j]==jugador&&j>=0;j--,horizontal++);
     for(j=b+1;p.tablero[a][j]==jugador&&j<c;j++,horizontal++);
+    if(horizontal>=piezas){
+        return true;
+    }
+    for(i=a-1,j=b-1;p.tablero[i][j]==jugador&&i>=0&&j>=0;diagonal_1++,i--,j--);
+    for(i=a+1,j=b+1;p.tablero[i][j]==jugador&&i<=f&&j<=c;diagonal_1++,i++,j++);
+    if(diagonal_1>=piezas){
+        return true;
+    }
+    for(i=a-1,j=b+1;p.tablero[i][j]==jugador&&i>=0&&j<=c;diagonal_2++,i--,j++);
+    for(i=a+1,j=b-1;p.tablero[i][j]==jugador&&i<=f&&j>=0;diagonal_2++,i++,j--);
+    if(diagonal_2>=piezas){
+        return true;
+    }
+    return false;
 }
